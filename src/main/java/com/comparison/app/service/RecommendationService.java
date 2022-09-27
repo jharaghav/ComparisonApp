@@ -1,5 +1,6 @@
 package com.comparison.app.service;
 
+import com.comparison.app.entities.VehicleVariant;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -7,5 +8,5 @@ import java.util.List;
 @Service
 public interface RecommendationService {
 
-    public List<Long> getAllRecommendedVehicle(Long vehicleVariantId);
+    public List<VehicleVariant> getAllRecommendedVehicle(Long vehicleVariantId);
 }

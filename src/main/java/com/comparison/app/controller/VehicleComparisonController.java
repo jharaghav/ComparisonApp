@@ -1,8 +1,6 @@
 package com.comparison.app.controller;
 
-import com.comparison.app.entities.UserInformation;
 import com.comparison.app.model.VehicleComparisonDetails;
-import com.comparison.app.service.UserInformationService;
 import com.comparison.app.service.VehicleComparisonService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -16,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/vehiclecomparison")
+@RequestMapping(value = "/vehicleComparison")
 @Slf4j
 public class VehicleComparisonController {
 

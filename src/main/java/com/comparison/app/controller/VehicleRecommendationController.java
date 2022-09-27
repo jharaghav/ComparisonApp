@@ -1,5 +1,7 @@
 package com.comparison.app.controller;
 
+import com.comparison.app.entities.VehicleVariant;
+import com.comparison.app.model.VehicleVariantRecommendation;
 import com.comparison.app.service.RecommendationService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -12,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/vehiclerecommendation")
+@RequestMapping(value = "/vehicleRecommendation")
 @Slf4j
 public class VehicleRecommendationController {
 
@@ -25,9 +27,11 @@ public class VehicleRecommendationController {
     @ResponseBody
     public ResponseEntity saveUser(@PathVariable Long vehicleVariantId ){
         LOGGER.info("Request received to get the vehicle suggestions based on the given vehicleVariantId : {}",vehicleVariantId);
-        List<Long> vehicleVariantIdList = recommendationService.getAllRecommendedVehicle(vehicleVariantId);
-        if(vehicleVariantIdList.size() > 0){
-            return ResponseEntity.ok().body(vehicleVariantIdList);
+        List<VehicleVariant> vehicleVariantList = recommendationService.getAllRecommendedVehicle(vehicleVariantId);
+        if(vehicleVariantList != null && vehicleVariantList.size() > 0){
+            VehicleVariantRecommendation vehicleVariantRecommendation = new VehicleVariantRecommendation();
+            vehicleVariantRecommendation.setVehicleVariantRecommendationList(vehicleVariantList);
+            return ResponseEntity.ok().body(vehicleVariantRecommendation);
         }else{
             return ResponseEntity.badRequest().body(null);
         }

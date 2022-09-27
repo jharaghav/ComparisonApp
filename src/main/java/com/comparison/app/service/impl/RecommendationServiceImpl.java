@@ -25,13 +25,13 @@ public class RecommendationServiceImpl implements RecommendationService {
     private int suggestionCount;
 
     @Override
-    public List<Long> getAllRecommendedVehicle(Long vehicleVariantId){
+    public List<VehicleVariant> getAllRecommendedVehicle(Long vehicleVariantId){
         Map<VehicleVariant,Integer> map = new HashMap<>();
-        List<Long> vehicleVariantIdList = new ArrayList<>();
+        List<VehicleVariant> vehicleVariantList = new ArrayList<>();
 
         Specification specification = specificationRepo.getSpecificationByVehicleVariant(vehicleVariantId);
         if(specification == null){
-            return vehicleVariantIdList;
+            return vehicleVariantList;
         }
 
         Feature feature = featureRepo.getFeatureByVehicleVariant(vehicleVariantId);
@@ -59,12 +59,12 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         int count = 0;
         for(Map.Entry<VehicleVariant, Integer> aa : list){
-            vehicleVariantIdList.add(aa.getKey().getId());
+            vehicleVariantList.add(aa.getKey());
             count++;
             if(count == suggestionCount) break;
         }
 
-        return vehicleVariantIdList;
+        return vehicleVariantList;
     }
 
     private void traverseSpecificationList(List<Specification> specificationList,Specification specification,Map<VehicleVariant,Integer> map){
