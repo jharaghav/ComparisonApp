@@ -3,6 +3,7 @@ package com.comparison.app.controller;
 import com.comparison.app.entities.VehicleVariant;
 import com.comparison.app.model.VehicleVariantRecommendation;
 import com.comparison.app.service.RecommendationService;
+import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class VehicleRecommendationController {
 
     @RequestMapping(value = "/{vehicleVariantId}",method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity saveUser(@PathVariable Long vehicleVariantId ){
+    public ResponseEntity saveUser(@PathVariable @NotNull Long vehicleVariantId ){
         LOGGER.info("Request received to get the vehicle suggestions based on the given vehicleVariantId : {}",vehicleVariantId);
         List<VehicleVariant> vehicleVariantList = recommendationService.getAllRecommendedVehicle(vehicleVariantId);
         if(vehicleVariantList != null && vehicleVariantList.size() > 0){

@@ -19,8 +19,13 @@ public class VehicleComparisonDetails implements Serializable {
     private static final long serialVersionUID = 7526472295622776147L;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long vehicleVariantId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Specification specification;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Feature feature;
+
+
 }

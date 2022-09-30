@@ -2,13 +2,15 @@ package com.comparison.app.service.impl;
 
 import com.comparison.app.entities.Feature;
 import com.comparison.app.entities.Specification;
-import com.comparison.app.entities.VehicleVariant;
 import com.comparison.app.model.VehicleComparisonDetails;
 import com.comparison.app.repo.FeatureRepo;
 import com.comparison.app.repo.SpecificationRepo;
 import com.comparison.app.service.VehicleComparisonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class VehicleComparisonServiceImpl implements VehicleComparisonService {
@@ -22,19 +24,23 @@ public class VehicleComparisonServiceImpl implements VehicleComparisonService {
 
 
     @Override
-    public VehicleComparisonDetails getAllComparedData(Long vehicleVariantId){
-        Specification specification = specificationRepo.getSpecificationByVehicleVariant(vehicleVariantId);
-        VehicleComparisonDetails vehicleComparisonDetails = new VehicleComparisonDetails();
-        Feature feature = featureRepo.getFeatureByVehicleVariant(vehicleVariantId);
-        if(specification == null) return vehicleComparisonDetails;
+    public List<VehicleComparisonDetails> getAllComparedData(Long firstVehicleVariantId, Long secondVehicleVariantId, Long thirdVehicleVariantId){
 
-        if(feature == null) return vehicleComparisonDetails;
+        List<VehicleComparisonDetails> vehicleComparisonDetailsList = new ArrayList<>();
+        List<Specification> specificationList = specificationRepo.getSpecifications(firstVehicleVariantId,secondVehicleVariantId,thirdVehicleVariantId);
 
-        vehicleComparisonDetails.setFeature(feature);
+        List <Feature> featureList = featureRepo.getFeatures(firstVehicleVariantId,secondVehicleVariantId,thirdVehicleVariantId);
 
-        vehicleComparisonDetails.setSpecification(specification);
+        for(int i =0 ;i<specificationList.size();i++){
+            Specification specification = specificationList.get(i);
+            VehicleComparisonDetails vehicleComparisonDetails = new VehicleComparisonDetails();
+            vehicleComparisonDetails.setVehicleVariantId(specification.getVehicleVariant().getId());
+            vehicleComparisonDetails.setSpecification(specification);
+            vehicleComparisonDetails.setFeature(featureList.get(i));
+            vehicleComparisonDetailsList.add(vehicleComparisonDetails);
+        }
 
-        return vehicleComparisonDetails;
+        return vehicleComparisonDetailsList;
     }
 
     @Override
@@ -49,6 +55,7 @@ public class VehicleComparisonServiceImpl implements VehicleComparisonService {
 
         vehicleComparisonDetails.setFeature(feature);
         vehicleComparisonDetails.setSpecification(specification);
+        vehicleComparisonDetails.setVehicleVariantId(vehicleVariantId);
 
         if(givenVehicleComparisonDetails == null){
             return vehicleComparisonDetails;
